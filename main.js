@@ -53,19 +53,26 @@ function draw() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const offset = 150;
+  const midX = (P0.x + P3.x) / 2;
+  const midY = (P0.y + P3.y) / 2;
 
-  // Apply physics with different targets
+  // How strong the bend is
+  const bendStrength = 0.4;
+
+  // Vertical bending based on mouse
+  const bendY = (rawMouse.y - midY) * bendStrength;
+
+  // Control point targets (THIS IS THE KEY FIX)
   updateControlPoint(
     P1,
-    rawMouse.x - offset,
-    rawMouse.y
+    midX - 200,
+    midY + bendY
   );
 
   updateControlPoint(
     P2,
-    rawMouse.x + offset,
-    rawMouse.y
+    midX + 200,
+    midY + bendY
   );
 
   // Draw Bézier curve
