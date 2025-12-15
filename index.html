@@ -2,20 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Interactive Bézier Curve</title>
+  <title>Bezier Test</title>
   <style>
     body {
       margin: 0;
-      overflow: hidden;
       background: #111;
+      overflow: hidden;
     }
     canvas {
       display: block;
+      background: #111;
     }
   </style>
 </head>
 <body>
+
+  <!-- Canvas MUST exist before JS loads -->
   <canvas id="canvas"></canvas>
+
+  <!-- main.js MUST be loaded AFTER canvas -->
   <script src="main.js"></script>
 </body>
 </html>
