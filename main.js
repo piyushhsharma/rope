@@ -55,7 +55,8 @@ function draw() {
 
   // Apply physics
   updateControlPoint(P1, rawMouse.x, rawMouse.y);
-  updateControlPoint(P2, rawMouse.x, rawMouse.y);
+  updateControlPoint(P2, canvas.width - rawMouse.x, canvas.height - rawMouse.y);
+
 
   // Draw Bézier curve
   ctx.beginPath();
