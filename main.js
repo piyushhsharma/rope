@@ -57,6 +57,7 @@ function draw() {
   updateControlPoint(P1, rawMouse.x, rawMouse.y);
   updateControlPoint(P2, rawMouse.x, rawMouse.y);
 
+
   // Draw Bézier curve
   ctx.beginPath();
   for (let t = 0; t <= 1; t += 0.01) {
