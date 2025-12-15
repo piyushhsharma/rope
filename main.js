@@ -53,9 +53,20 @@ function draw() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Apply physics
-  updateControlPoint(P1, rawMouse.x, rawMouse.y);
-  updateControlPoint(P2, rawMouse.x, rawMouse.y);
+  const offset = 150;
+
+  // Apply physics with different targets
+  updateControlPoint(
+    P1,
+    rawMouse.x - offset,
+    rawMouse.y
+  );
+
+  updateControlPoint(
+    P2,
+    rawMouse.x + offset,
+    rawMouse.y
+  );
 
   // Draw Bézier curve
   ctx.beginPath();
@@ -71,5 +82,3 @@ function draw() {
 
   requestAnimationFrame(draw);
 }
-
-draw();
