@@ -20,9 +20,10 @@ const mouse = {
 };
 
 canvas.addEventListener("mousemove", (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
+  rawMouse.x = e.clientX;
+  rawMouse.y = e.clientY;
 });
+
 
 // Bézier point calculation
 function bezierPoint(t, p0, p1, p2, p3) {
