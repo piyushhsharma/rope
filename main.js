@@ -54,8 +54,19 @@ function draw() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Apply physics
-  updateControlPoint(P1, rawMouse.x, rawMouse.y);
-  updateControlPoint(P2, rawMouse.x, rawMouse.y);
+const offset = 150;
+
+updateControlPoint(
+  P1,
+  rawMouse.x - offset,
+  rawMouse.y
+);
+
+updateControlPoint(
+  P2,
+  rawMouse.x + offset,
+  rawMouse.y
+);
 
 
   // Draw Bézier curve
