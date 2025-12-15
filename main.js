@@ -4,26 +4,31 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Fixed endpoints
-const P0 = { x: 100, y: canvas.height / 2 };
-const P3 = { x: canvas.width - 100, y: canvas.height / 2 };
-
-// Movable control points
-let P1 = { x: 300, y: canvas.height / 2 };
-let P2 = { x: canvas.width - 300, y: canvas.height / 2 };
-
-// Mouse input
-const mouse = {
+// Raw mouse (input only)
+const rawMouse = {
   x: canvas.width / 2,
   y: canvas.height / 2
 };
 
+// Fixed endpoints
+const P0 = { x: 100, y: canvas.height / 2 };
+const P3 = { x: canvas.width - 100, y: canvas.height / 2 };
+
+// Control points with velocity (for physics)
+const P1 = { x: 300, y: canvas.height / 2, vx: 0, vy: 0 };
+const P2 = { x: canvas.width - 300, y: canvas.height / 2, vx: 0, vy: 0 };
+
+// Physics constants
+const stiffness = 0.02;
+const damping = 0.85;
+
+// Mouse listener
 canvas.addEventListener("mousemove", (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
+  rawMouse.x = e.clientX;
+  rawMouse.y = e.clientY;
 });
 
-// Bézier point calculation
+// Cubic Bézier function
 function bezierPoint(t, p0, p1, p2, p3) {
   const u = 1 - t;
   return {
@@ -32,16 +37,27 @@ function bezierPoint(t, p0, p1, p2, p3) {
   };
 }
 
+// Physics update
+function updateControlPoint(p, targetX, targetY) {
+  const ax = -stiffness * (p.x - targetX);
+  const ay = -stiffness * (p.y - targetY);
+
+  p.vx = (p.vx + ax) * damping;
+  p.vy = (p.vy + ay) * damping;
+
+  p.x += p.vx;
+  p.y += p.vy;
+}
+
 function draw() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Directly follow mouse (temporary, no physics)
-  P1.x = mouse.x;
-  P1.y = mouse.y;
-  P2.x = mouse.x;
-  P2.y = mouse.y;
+  // Apply physics
+  updateControlPoint(P1, rawMouse.x, rawMouse.y);
+  updateControlPoint(P2, rawMouse.x, rawMouse.y);
 
+  // Draw Bézier curve
   ctx.beginPath();
   for (let t = 0; t <= 1; t += 0.01) {
     const p = bezierPoint(t, P0, P1, P2, P3);
